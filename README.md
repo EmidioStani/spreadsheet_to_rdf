@@ -28,6 +28,7 @@ function onEdit() {
 ```
 
 The cell is used by the script in the variables: LAST_UPDATE_CELL and LAST_UPDATE_FORMAT
+The cell value is stored in a file which is checked against the value of the cell, if the cell is more updated than the file, or the file does not exist (first time execution) the CSV is downloaded and extracted.
 
 In order to contact OpenRefine, you need to:
  * Download OpenRefine, I have version 2.6 RC2 but the refine-client has been tested on 2.5, so it should work on 2.5
