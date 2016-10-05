@@ -12,7 +12,7 @@ In order to retrieve data from Google Spreadsheet, you need to:
  * share your Google Spreadsheet to the email contained in your JSON file
  * put in your Google Spreadsheet a cell which contains the last modified date with the following script (from Tools -> Script editor...):
 
-
+```
 function onEdit() {
   var s = SpreadsheetApp.getActiveSheet();
  if( s.getName() == "CPSV-AP classes and properties" ) { //checks that we're on the correct sheet
@@ -25,6 +25,7 @@ function onEdit() {
   };
  };
 }
+```
 
 The cell is used by the script in the variables: LAST_UPDATE_CELL and LAST_UPDATE_FORMAT
 
