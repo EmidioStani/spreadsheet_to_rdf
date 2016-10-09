@@ -13,6 +13,7 @@ import os
 import json
 import urlparse
 import logging
+import argparse
 
 from oauth2client.service_account import ServiceAccountCredentials
 from google.refine import refine
@@ -22,13 +23,25 @@ G_AUTH_JSON = "cpsv-ap-labels-a488e0f3d7bb.json"
 G_SPREADSHEET_NAME = "CPSV-AP Multilingual labels"
 G_WORKSHEET_NAME = "CPSV-AP classes and properties"
 
+PARSER = argparse.ArgumentParser(description="Transforms a spreadsheet to RDF")
+PARSER.add_argument("-s", "--spreadsheet", help="Google Spreadsheet")
+PARSER.add_argument("-w", "--worksheet", help="Worksheet")
+ARGS = PARSER.parse_args()
+
+if ARGS.spreadsheet:
+    G_SPREADSHEET_NAME = ARGS.spreadsheet
+if ARGS.worksheet:
+    G_WORKSHEET_NAME = ARGS.worksheet
+
 LAST_UPDATE_CELL = "X2"
 LAST_UPDATE_FORMAT = "%m/%d/%Y %H:%M:%S"
-LAST_UPDATE_FILE = "lastdate.txt"
+LAST_UPDATE_FILE = G_SPREADSHEET_NAME + "_last_update.txt"
 CSV_FILE = G_SPREADSHEET_NAME + ".csv"
 ENCODE = "utf-8"
+TIME = str(datetime.now())
+LAST_PROJECT_FILE = G_SPREADSHEET_NAME + "_last_project.txt"
 
-REFINE_PROJECT_NAME = G_SPREADSHEET_NAME
+REFINE_PROJECT_NAME = G_SPREADSHEET_NAME + "_" + TIME
 REFINE_APPLY_JSON = "apply.json"
 REFINE_RDF_FILE = G_SPREADSHEET_NAME + ".rdf"
 
@@ -67,6 +80,23 @@ def apply_operations(project, file_path, wait=True):
         project.wait_until_idle()
         return 'ok'
     return resp_json['code']  # can be 'ok' or 'pending'
+
+
+def update_project_file(project_id):
+    """Write on file the project id."""
+    if not os.path.exists(LAST_PROJECT_FILE):
+        update_file = open(LAST_PROJECT_FILE, 'w')
+        update_file.write("%s\n" % project_id)
+        update_file.close()
+    else:
+        update_file = open(LAST_PROJECT_FILE, 'r')
+        last_project_created = update_file.readline().rstrip()
+        update_file.close()
+        LOGGER.debug("Deleting project id: %s", last_project_created)
+        refine.RefineProject(last_project_created).delete()
+        update_file = open(LAST_PROJECT_FILE, 'w')
+        update_file.write("%s\n" % project_id)
+        update_file.close()
 
 
 def export_project(project, output=False):
@@ -143,8 +173,9 @@ if (not FILE_EXISTS) or (DATE_OBJ > DATE_OBJ_2):
 
     if 'project' in URL_PARAMS:
         PROJECT_ID = URL_PARAMS['project'][0]
-        LOGGER.debug("Created project with projectid %s", PROJECT_ID)
+        LOGGER.debug("Created project with project id: %s", PROJECT_ID)
         PROJ = refine.RefineProject(PROJECT_ID)
+        update_project_file(PROJECT_ID)
     else:
         raise Exception('Project not created')
 
