@@ -3,7 +3,7 @@
 This script is used to download automatically a Google Spreadsheet as CSV and transform it in RDF via OpenRefine.
 
 Usage:
-
+```
 spreadsheet_to_rdf.py [-h] [-a AUTH] [-s SPREADSHEET] [-w WORKSHEET] [-c CELL] [-t TRANSFORM]
 
 optional arguments:
@@ -18,6 +18,7 @@ optional arguments:
   -c CELL, --cell CELL  "Cell containing last update date"
 
   -t TRANSFORM, --transform TRANSFORM "JSON file for transformation"
+```
 
 The script is based on Python 2.7.10 and it requires 2 libraries to work:
  * gspread (https://github.com/burnash/gspread), to retrieve data from Google Spreadsheet
