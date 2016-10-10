@@ -7,15 +7,17 @@ Usage:
 spreadsheet_to_rdf.py [-h] [-a AUTH] [-s SPREADSHEET] [-w WORKSHEET] [-c CELL] [-t TRANSFORM]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -a AUTH, --auth AUTH  JSON file for authentication
-  -s SPREADSHEET, --spreadsheet SPREADSHEET
-                        Google Spreadsheet name
-  -w WORKSHEET, --worksheet WORKSHEET
-                        Worksheet name
-  -c CELL, --cell CELL  Cell containing last update date
-  -t TRANSFORM, --transform TRANSFORM
-                        JSON file for transformation
+  -h, --help "show this help message and exit"
+
+  -a AUTH, --auth AUTH  "JSON file for authentication"
+
+  -s SPREADSHEET, --spreadsheet SPREADSHEET "Google Spreadsheet name"
+
+  -w WORKSHEET, --worksheet WORKSHEET "Worksheet name"
+
+  -c CELL, --cell CELL  "Cell containing last update date"
+
+  -t TRANSFORM, --transform TRANSFORM "JSON file for transformation"
 
 The script is based on Python 2.7.10 and it requires 2 libraries to work:
  * gspread (https://github.com/burnash/gspread), to retrieve data from Google Spreadsheet
