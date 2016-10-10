@@ -21,6 +21,7 @@ optional arguments:
 ```
 
 The script is based on Python 2.7.10 and it requires 2 libraries to work:
+ * oauth2client (via pip install oauth2client), to authenticate to Google Spreadsheet via Oauth2
  * gspread (https://github.com/burnash/gspread), to retrieve data from Google Spreadsheet
  * refine-client (https://github.com/PaulMakepeace/refine-client-py), to send the CSV to OpenRefine and retrieve the RDF
 
